@@ -31,6 +31,7 @@
         android:layout_marginTop="12dp"
         android:text="Official Mi Fit app and Gmail app must be installed and setup correctly." />
 
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
