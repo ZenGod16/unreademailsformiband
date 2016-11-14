@@ -1,9 +1,15 @@
 package com.godzen.unreademailsformiband.helper;
 
+import android.Manifest;
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 /**
  * Created by godzen on 13/11/16.
@@ -29,8 +35,7 @@ public class GmailHelper {
     }
 
 
-    public int getUnreadEmails(Context context)
-    {
+    public int getUnreadEmails(Context context) {
         int unread = 0;
 
         String labelCanonical = GmailContract.Labels.LabelCanonicalNames.CANONICAL_NAME_INBOX;
@@ -74,13 +79,10 @@ public class GmailHelper {
         cursor.close();
 
 
-        Log.d(TAG, "unread = "+unread);
+        Log.d(TAG, "unread = " + unread);
 
         return unread;
     }
-
-
-
 
 
     private Cursor tryOpenLabelsCursor(Context context, String account) {
@@ -111,5 +113,21 @@ public class GmailHelper {
         int NUM_UNREAD_CONVERSATIONS = 0;
         int URI = 1;
         int CANONICAL_NAME = 2;
+    }
+
+
+    public String[] getAllAccountNames(Context context) {
+        String[] accountNames = new String[0];
+        try {
+            final Account[] accounts = AccountManager.get(context).getAccountsByType(ACCOUNT_TYPE_GOOGLE);
+            accountNames = new String[accounts.length];
+            for (int i = 0; i < accounts.length; i++) {
+                accountNames[i] = accounts[i].name;
+            }
+        }
+        catch (SecurityException e){
+            e.printStackTrace();
+        }
+        return accountNames;
     }
 }

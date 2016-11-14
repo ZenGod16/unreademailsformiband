@@ -52,7 +52,7 @@ public final class GmailContract {
     static final String LABELS_PARAM = "/labels";
     static final String LABEL_PARAM = "/label/";
     static final String BASE_URI_STRING = "content://" + AUTHORITY;
-    static final String PACKAGE = "com.google.android.gm";
+    public static final String PACKAGE = "com.google.android.gm";
 
 
     /**
