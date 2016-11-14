@@ -7,7 +7,7 @@ You have to set also your Mi Band MAC address manually. You can find it on offic
 
 # APK
 You can download last APK from here:
-(https://github.com/ZenGod16/unreademailsformiband/blob/master/app-debug.apk)
+(https://github.com/ZenGod16/unreademailsformiband/raw/master/app-debug.apk)
 
 # Thanks
 Thanks to all contributors
