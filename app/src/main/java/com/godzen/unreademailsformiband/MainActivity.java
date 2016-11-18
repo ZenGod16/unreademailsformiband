@@ -1,6 +1,8 @@
 package com.godzen.unreademailsformiband;
 
 import android.Manifest;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -27,6 +29,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.godzen.unreademailsformiband.helper.GmailHelper;
+import com.godzen.unreademailsformiband.helper.SettingsZen;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -82,8 +85,15 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        if(sharedPreferences.getString("mibandMAC", "").isEmpty())
-        {
+        if(sharedPreferences.getString("mibandMAC", "").isEmpty()) {
+            String pairedMiBand = getPairedMiBandMAC();
+            if (!pairedMiBand.equals("")) {
+                SettingsZen.getInstance().setMiBandMAC(getApplicationContext(), pairedMiBand);
+            }
+        }
+
+
+        if(sharedPreferences.getString("mibandMAC", "").isEmpty()) {
             Toast.makeText(this, "Please set your Mi Band MAC address", Toast.LENGTH_LONG).show();
 
             startActivity(new Intent(MainActivity.this, SettingsActivity.class));
@@ -124,6 +134,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private String getPairedMiBandMAC() {
+
+        String result = "";
+
+        if(BluetoothAdapter.getDefaultAdapter().isEnabled()) {
+            final BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+            final Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
+
+            for (BluetoothDevice pairedDevice : pairedDevices) {
+                if (pairedDevice != null && pairedDevice.getAddress() != null && pairedDevice.getName() != null && pairedDevice.getName().toLowerCase().contains("mi")) {
+                    result = pairedDevice.getAddress();
+                }
+            }
+        }
+
+        return result;
     }
 
     private void connectService()
